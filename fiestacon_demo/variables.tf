@@ -9,16 +9,21 @@ variable "alb_ingress_cidr_blocks" {
   type        = list(string)
 }
 
-variable "github_owner" {
+variable "owner" {
   type        = string
   description = "AWS TAG - Owner name used in a tag to easily idenitfy Atlantis assets"
-  default = "Atlantis-Bot"
+  default     = "Atlantis-Bot"
 }
 
 variable "staging_environment" {
   type        = string
   description = "AWS TAG - The environment your Atlantis deployment will be running in"
-  default = "Prod"
+  default     = "Prod"
+}
+
+variable "github_owner" {
+  type        = string
+  description = "The Username who or which organization the repo lives under. ie. Look at URL of your repo"
 }
 
 variable "github_user" {
@@ -36,12 +41,7 @@ variable "name" {
   type        = string
 }
 
-variable "s3_bucket_name" {
-  description = "Unique name for your S3 bucket"
-  type        = string
-}
-
-variable "aws_region" {
+variable "AWS_REGION" {
   description = "The region you plan to deploy your Atlantis setup in"
   type        = string
 }

@@ -35,4 +35,3 @@ output "github_webhook_secret" {
   value       = module.github_repository_webhook.repository_webhook_secret
   sensitive   = true
 }
-

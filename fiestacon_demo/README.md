@@ -5,12 +5,12 @@ This is pretty much a copy of the Github-Complete in the examples folder. There 
 
 Configuration in this directory creates the necessary infrastructure and resources for running Atlantis on Fargate plus GitHub repository webhooks configured to Atlantis URL.
 
-An existing Route53 hosted zone and domain is (Optional) to deploy this example.
+An existing Route53 hosted zone and domain needs to be created
 
 ## Usage
 1. Create a new github User that has access to the Terraform Pipeline Repo. Automated Github comments will be posted as this user
-2. Generate a PAT for this new user
-3. Create a S3 Bucket for the Terraform Statefile backend of this deployment
+2. Generate a PAT for this new user - ensure it has all the correct permissions
+3. Create a Route53 Hosted zone with a domain you won
 
 To run this code you need to copy `terraform.tfvars.sample` into `terraform.tfvars` and update the values locally or specify them using environment variables (`TF_VAR_github_app_id=xxx`, `TF_VAR_github_owner=xxx`, etc.). Once ready, within the fiesta_demo directory execute:
 

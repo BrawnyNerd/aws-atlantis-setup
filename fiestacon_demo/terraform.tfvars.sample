@@ -1,0 +1,27 @@
+name = "atlantis" # The name of your deployment
+
+AWS_REGION = us-east-1 # The region you plan to deploy your atlantis setup in
+
+# Enter TLD of a domain that is managed by AWS Route53 
+domain = "mydomain.com" 
+
+alb_ingress_cidr_blocks = ["x.x.x.x/32"] # The CIDR range or ranges to whitelist to your Atlantis instance
+github_owner = "myorg" # The username or organization name housing your repo
+github_repo_names = ["mycoolrepo1", "mycoolrepo2"] #The repo name expecting to call to atlantis
+github_user = "<USERNAME>" # The username of your new github account running atlantis
+GITHUB_TOKEN = "<PAT Token>" # The PAT created for your user above
+
+# AWS Tags
+owner = "Auto-Bot" # A cool name for your deployment
+staging_environment = "Prod"
+
+# Secrets / API keys
+TSKEY_EPHEMERAL_SERVER = "<your secret>"
+
+AWS_ACCESS_KEY_ID = "<your secret>"
+
+AWS_SECRET_ACCESS_KEY = "<your secret>"
+
+GODADDY_API_KEY = "<your secret>"
+
+GODADDY_API_SECRET = "<your secret>"

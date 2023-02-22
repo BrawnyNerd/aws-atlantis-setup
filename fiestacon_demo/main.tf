@@ -4,10 +4,10 @@ provider "aws" {
 
 locals {
   name   = var.name
-  region = var.aws_region
+  region = var.AWS_REGION
 
   tags = {
-    Owner       = var.github_owner
+    Owner       = var.owner
     Environment = var.staging_environment
   }
 }
@@ -21,6 +21,13 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 data "aws_elb_service_account" "current" {}
+
+resource "random_string" "rand_string" {
+  length = 10
+  upper = false
+  special = false
+  
+}
 
 ##############################################################
 # Atlantis Service
@@ -106,14 +113,18 @@ module "atlantis" {
   # Trusted roles
   trusted_principals = ["ssm.amazonaws.com"]
 
-  # IAM role options
-  permissions_boundary = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/cloud/developer-boundary-policy"
-  path                 = "/delegatedadmin/developer/"
+  # # IAM role options
+  # permissions_boundary = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/cloud/developer-boundary-policy"
+  # path                 = "/delegatedadmin/developer/"
+
+  # SSM Parameters
+  webhook_ssm_parameter_name = "/atlantis/webhook-${random_string.rand_string.id}/secret"
+  atlantis_github_user_token_ssm_parameter_name = "/atlantis/github-${random_string.rand_string.id}/user/token"
 
   # Atlantis with Github Webhook
   atlantis_github_user       = var.github_user
   atlantis_github_user_token = var.GITHUB_TOKEN
-  atlantis_repo_allowlist        = [for repo in var.github_repo_names : "github.com/${var.github_owner}/${repo}"]
+  atlantis_repo_allowlist    = [for repo in var.github_repo_names : "github.com/${var.github_owner}/${repo}"]
 
   # # Bootstrapping a new Github App
   # atlantis_github_user       = var.bootstrap_github_app ? "fake" : ""
@@ -195,7 +206,7 @@ module "atlantis_access_log_bucket" {
   source  = "terraform-aws-modules/s3-bucket/aws"
   version = "~> 3.0"
 
-  bucket = "atlantis-access-logs-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
+  bucket = "atlantis-access-logs-${random_string.rand_string.result}-${data.aws_region.current.name}"
 
   attach_policy = true
   policy        = data.aws_iam_policy_document.atlantis_access_log_bucket_policy.json
